@@ -1,6 +1,6 @@
-# Snake Arcade
+# Snake Arcade Z
 
-A browser-based Snake game with touch controls, offline play after the first visit, and a leaderboard.
+A free online Snake game with touch controls, offline play after the first visit, and a leaderboard.
 
 ## Run locally
 
@@ -25,3 +25,5 @@ Render's free service may sleep when idle, so the first visit after a quiet peri
 Visit the published URL in your browser and choose **Install app**. Supported browsers show a native install prompt; on iPhone, tap **Share → Add to Home Screen** in Safari. The game can be played offline after it has loaded once; saving or loading leaderboard scores requires an internet connection.
 
 On phones, tap **Play**; on desktop, press **Play** on the game board. Either opens a full-screen play area that prevents the page from moving while you play. Choose **Menu** to return to the page. Open **Settings** to choose Easy, Normal, or Hard, adjust swipe sensitivity, and set the username used for your scores. These preferences are saved in that browser on that device.
+
+The public page includes search metadata and a sitemap. Search engines may take time to index it; submitting the URL in Google Search Console can help request indexing.

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://snake-arcade-2x2x.onrender.com/sitemap.xml

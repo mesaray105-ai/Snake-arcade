@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "Snake Arcade",
-  "short_name": "Snake",
-  "description": "A classic Snake game you can play on any device.",
+  "name": "Snake Arcade Z",
+  "short_name": "Snake Z",
+  "description": "Play Snake Arcade Z, a free online Snake game with touch controls and offline play.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
