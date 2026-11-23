@@ -18,7 +18,21 @@
       <header class="topbar">
         <a class="brand" href="/" aria-label="Snake Arcade home"><span class="brand-mark">S</span> ARCADE<span class="brand-dot">.</span></a>
         <span class="topbar-label"><span class="live-dot"></span> CLASSIC MODE</span>
+        <button id="top-settings-button" class="settings-trigger">Settings</button>
       </header>
+
+      <section id="mobile-start-screen" class="mobile-start-screen" aria-label="Start Snake">
+        <div class="mobile-start-content">
+          <span class="brand-mark mobile-start-mark">S</span>
+          <p class="eyebrow">THE ORIGINAL TIME KILLER</p>
+          <h1>Raydel's First Snake Project<span class="heading-period">.</span></h1>
+          <p class="mobile-start-hint">Swipe the board or tap the arrows to steer.</p>
+          <div class="mobile-start-actions">
+            <button id="mobile-play-button" class="primary-button mobile-play-button">Play <span>→</span></button>
+            <button id="mobile-start-settings-button" class="settings-trigger">Settings</button>
+          </div>
+        </div>
+      </section>
 
       <section class="layout" aria-label="Snake game">
         <div class="game-column">
@@ -27,6 +41,8 @@
               <p class="eyebrow">THE ORIGINAL TIME KILLER</p>
               <h1>Raydel's First Snake Project<span class="heading-period">.</span></h1>
             </div>
+            <button id="mobile-menu-button" class="mobile-menu-button" aria-label="Return to start screen">← Menu</button>
+            <button id="game-settings-button" class="mobile-menu-button game-settings-button">Settings</button>
             <div class="score-card" aria-live="polite">
               <span class="score-label">SCORE</span>
               <span id="score" class="score-value">000</span>
@@ -84,5 +100,29 @@
         </aside>
       </section>
     </main>
+
+    <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title">
+      <div class="settings-content">
+        <div class="settings-heading">
+          <h2 id="settings-title">Settings</h2>
+          <button id="settings-close-button" class="settings-close-button" aria-label="Close settings">×</button>
+        </div>
+        <label class="settings-field" for="username-input">
+          <span>Username</span>
+          <input id="username-input" type="text" maxlength="16" autocomplete="nickname" placeholder="PLAYER">
+        </label>
+        <p class="settings-help">Your scores will be saved with this name.</p>
+        <label class="settings-field" for="difficulty-select">
+          <span>Difficulty</span>
+          <select id="difficulty-select">
+            <option value="easy">Easy — slower</option>
+            <option value="normal">Normal</option>
+            <option value="hard">Hard — faster</option>
+          </select>
+        </label>
+        <p id="settings-status" class="settings-status" role="status" aria-live="polite"></p>
+        <button id="settings-done-button" class="primary-button settings-done-button">Done <span>→</span></button>
+      </div>
+    </dialog>
   </body>
 </html>

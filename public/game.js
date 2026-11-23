@@ -9,10 +9,22 @@ const overlayHint = document.querySelector("#overlay-hint");
 const startButton = document.querySelector("#start-button");
 const leaderboard = document.querySelector("#leaderboard");
 const mobilePauseButton = document.querySelector("#mobile-pause-button");
+const mobilePlayButton = document.querySelector("#mobile-play-button");
+const mobileMenuButton = document.querySelector("#mobile-menu-button");
+const settingsDialog = document.querySelector("#settings-dialog");
+const usernameInput = document.querySelector("#username-input");
+const difficultySelect = document.querySelector("#difficulty-select");
+const settingsStatus = document.querySelector("#settings-status");
 
 const tileCount = 22;
 const tileSize = canvas.width / tileCount;
 const colors = { background: "#141c15", grid: "#1d281d", snake: "#c5f36b", head: "#e1ff9f", food: "#ff785e" };
+const settingsStorageKey = "snake-arcade-settings";
+const difficultySettings = {
+  easy: { start: 160, minimum: 110, decrease: 4 },
+  normal: { start: 130, minimum: 65, decrease: 5 },
+  hard: { start: 100, minimum: 45, decrease: 7 },
+};
 let snake;
 let food;
 let direction;
@@ -20,6 +32,60 @@ let nextDirection;
 let score = 0;
 let gameState = "ready";
 let gameTimer;
+let playerName = "PLAYER";
+let difficulty = "normal";
+let resumeAfterSettings = false;
+
+function getGameSpeed() {
+  const settings = difficultySettings[difficulty];
+  return Math.max(settings.minimum, settings.start - Math.floor(score / 50) * settings.decrease);
+}
+
+function scheduleGameTimer() {
+  clearInterval(gameTimer);
+  gameTimer = setInterval(moveSnake, getGameSpeed());
+}
+
+function loadSettings() {
+  try {
+    const savedSettings = window.localStorage.getItem(settingsStorageKey);
+    if (savedSettings) {
+      const parsedSettings = JSON.parse(savedSettings);
+      if (typeof parsedSettings.username === "string") {
+        playerName = parsedSettings.username.trim().slice(0, 16) || "PLAYER";
+      }
+      if (Object.prototype.hasOwnProperty.call(difficultySettings, parsedSettings.difficulty)) {
+        difficulty = parsedSettings.difficulty;
+      }
+    }
+  } catch (error) {
+    console.error("Could not load saved settings:", error);
+    settingsStatus.textContent = "Could not load saved settings.";
+  }
+  usernameInput.value = playerName;
+  difficultySelect.value = difficulty;
+}
+
+function saveSettings() {
+  playerName = usernameInput.value.trim().slice(0, 16) || "PLAYER";
+  difficulty = Object.prototype.hasOwnProperty.call(difficultySettings, difficultySelect.value)
+    ? difficultySelect.value
+    : "normal";
+  try {
+    window.localStorage.setItem(settingsStorageKey, JSON.stringify({ username: playerName, difficulty }));
+    settingsStatus.textContent = "Settings saved on this device.";
+  } catch (error) {
+    console.error("Could not save settings:", error);
+    settingsStatus.textContent = "Could not save settings on this device.";
+  }
+  if (gameState === "running") scheduleGameTimer();
+}
+
+function openSettings() {
+  resumeAfterSettings = gameState === "running";
+  if (resumeAfterSettings) pauseGame();
+  settingsDialog.showModal();
+}
 
 function drawBoard() {
   context.fillStyle = colors.background;
@@ -109,8 +175,7 @@ function startGame() {
   gameState = "running";
   mobilePauseButton.textContent = "Pause";
   overlay.classList.add("hidden");
-  clearInterval(gameTimer);
-  gameTimer = setInterval(moveSnake, Math.max(65, 130 - Math.floor(score / 50) * 5));
+  scheduleGameTimer();
 }
 
 function pauseGame() {
@@ -119,6 +184,21 @@ function pauseGame() {
   mobilePauseButton.textContent = "Resume";
   clearInterval(gameTimer);
   showOverlay("paused");
+}
+
+function enterMobileGame() {
+  document.body.classList.add("mobile-game-active");
+  startGame();
+}
+
+function exitMobileGame() {
+  clearInterval(gameTimer);
+  gameState = "ready";
+  mobilePauseButton.textContent = "Pause";
+  resetGame();
+  showOverlay("ready");
+  document.body.classList.remove("mobile-game-active");
+  window.scrollTo(0, 0);
 }
 
 function endGame() {
@@ -147,8 +227,7 @@ function moveSnake() {
     score += 10;
     scoreElement.textContent = String(score).padStart(3, "0");
     placeFood();
-    clearInterval(gameTimer);
-    gameTimer = setInterval(moveSnake, Math.max(65, 130 - Math.floor(score / 50) * 5));
+    scheduleGameTimer();
     if (!food) {
       endGame();
       return;
@@ -167,16 +246,12 @@ function setDirection(x, y) {
 
 async function saveScore() {
   if (score === 0) return;
-  let name = window.prompt(`You scored ${score}! Enter your name for the leaderboard:`, "PLAYER");
-  if (name === null) return;
-  name = name.trim().slice(0, 16);
-  if (!name) name = "PLAYER";
 
   try {
     const response = await fetch("/api/scores", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, score }),
+      body: JSON.stringify({ name: playerName, score }),
     });
     if (!response.ok) throw new Error("Could not save your score.");
     renderLeaderboard(await response.json());
@@ -292,6 +367,23 @@ mobilePauseButton.addEventListener("click", () => {
   }
 });
 
+mobilePlayButton.addEventListener("click", enterMobileGame);
+mobileMenuButton.addEventListener("click", exitMobileGame);
+
+document.querySelectorAll("#top-settings-button, #mobile-start-settings-button, #game-settings-button")
+  .forEach((button) => button.addEventListener("click", openSettings));
+usernameInput.addEventListener("input", saveSettings);
+difficultySelect.addEventListener("change", saveSettings);
+document.querySelector("#settings-close-button").addEventListener("click", () => settingsDialog.close());
+document.querySelector("#settings-done-button").addEventListener("click", () => settingsDialog.close());
+settingsDialog.addEventListener("close", () => {
+  if (resumeAfterSettings && gameState === "paused") startGame();
+  resumeAfterSettings = false;
+});
+settingsDialog.addEventListener("click", (event) => {
+  if (event.target === settingsDialog) settingsDialog.close();
+});
+
 startButton.addEventListener("click", startGame);
 document.querySelector("#restart-button").addEventListener("click", () => {
   clearInterval(gameTimer);
@@ -303,6 +395,7 @@ document.querySelector("#restart-button").addEventListener("click", () => {
 
 resetGame();
 showOverlay("ready");
+loadSettings();
 loadLeaderboard();
 
 if ("serviceWorker" in navigator) {
