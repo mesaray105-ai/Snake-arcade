@@ -16,7 +16,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
-  background-image: radial-gradient(ellipse at 42% 34%, #192219 0, #101610 57%);
+  background-image: radial-gradient(ellipse at 42% 34%, #ffa216 0, #ff8800 57%);
 }
 
 button { font: inherit; }
