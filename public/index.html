@@ -120,6 +120,11 @@
             <option value="hard">Hard — faster</option>
           </select>
         </label>
+        <label class="settings-field" for="touch-sensitivity-input">
+          <span>Swipe sensitivity: <output id="touch-sensitivity-value">8</output></span>
+          <input id="touch-sensitivity-input" type="range" min="1" max="10" step="1" value="8">
+        </label>
+        <p class="settings-help">Higher sensitivity responds to shorter swipes.</p>
         <p id="settings-status" class="settings-status" role="status" aria-live="polite"></p>
         <button id="settings-done-button" class="primary-button settings-done-button">Done <span>→</span></button>
       </div>

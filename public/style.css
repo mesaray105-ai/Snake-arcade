@@ -49,6 +49,7 @@ button { font: inherit; }
 .settings-field { display: grid; gap: 7px; color: #dce3d5; font-size: 12px; }
 .settings-field input, .settings-field select { width: 100%; min-height: 44px; padding: 0 12px; border: 1px solid #394437; border-radius: 4px; color: #f0f3e9; background: #101610; font: 13px "Space Grotesk", sans-serif; }
 .settings-field input:focus, .settings-field select:focus { outline: 2px solid var(--green); outline-offset: 2px; }
+.settings-field input[type="range"] { min-height: 28px; padding: 0; accent-color: var(--green); }
 .settings-help { margin: -8px 0 0; color: var(--muted); font-size: 11px; }
 .settings-status { min-height: 16px; margin: 0; color: var(--green); font: 10px "DM Mono", monospace; }
 .settings-done-button { width: 100%; }

@@ -14,6 +14,8 @@ const mobileMenuButton = document.querySelector("#mobile-menu-button");
 const settingsDialog = document.querySelector("#settings-dialog");
 const usernameInput = document.querySelector("#username-input");
 const difficultySelect = document.querySelector("#difficulty-select");
+const touchSensitivityInput = document.querySelector("#touch-sensitivity-input");
+const touchSensitivityValue = document.querySelector("#touch-sensitivity-value");
 const settingsStatus = document.querySelector("#settings-status");
 
 const tileCount = 22;
@@ -34,6 +36,7 @@ let gameState = "ready";
 let gameTimer;
 let playerName = "PLAYER";
 let difficulty = "normal";
+let touchSensitivity = 8;
 let resumeAfterSettings = false;
 
 function getGameSpeed() {
@@ -44,6 +47,10 @@ function getGameSpeed() {
 function scheduleGameTimer() {
   clearInterval(gameTimer);
   gameTimer = setInterval(moveSnake, getGameSpeed());
+}
+
+function getSwipeThreshold() {
+  return Math.max(6, 36 - touchSensitivity * 3);
 }
 
 function loadSettings() {
@@ -57,6 +64,10 @@ function loadSettings() {
       if (Object.prototype.hasOwnProperty.call(difficultySettings, parsedSettings.difficulty)) {
         difficulty = parsedSettings.difficulty;
       }
+      if (Number.isInteger(parsedSettings.touchSensitivity) &&
+          parsedSettings.touchSensitivity >= 1 && parsedSettings.touchSensitivity <= 10) {
+        touchSensitivity = parsedSettings.touchSensitivity;
+      }
     }
   } catch (error) {
     console.error("Could not load saved settings:", error);
@@ -64,6 +75,9 @@ function loadSettings() {
   }
   usernameInput.value = playerName;
   difficultySelect.value = difficulty;
+  touchSensitivityInput.value = String(touchSensitivity);
+  touchSensitivityValue.value = String(touchSensitivity);
+  touchSensitivityValue.textContent = String(touchSensitivity);
 }
 
 function saveSettings() {
@@ -71,8 +85,11 @@ function saveSettings() {
   difficulty = Object.prototype.hasOwnProperty.call(difficultySettings, difficultySelect.value)
     ? difficultySelect.value
     : "normal";
+  touchSensitivity = Number(touchSensitivityInput.value);
+  touchSensitivityValue.value = String(touchSensitivity);
+  touchSensitivityValue.textContent = String(touchSensitivity);
   try {
-    window.localStorage.setItem(settingsStorageKey, JSON.stringify({ username: playerName, difficulty }));
+    window.localStorage.setItem(settingsStorageKey, JSON.stringify({ username: playerName, difficulty, touchSensitivity }));
     settingsStatus.textContent = "Settings saved on this device.";
   } catch (error) {
     console.error("Could not save settings:", error);
@@ -322,7 +339,7 @@ boardShell.addEventListener("touchend", (event) => {
   const deltaX = touch.clientX - touchStart.x;
   const deltaY = touch.clientY - touchStart.y;
   touchStart = null;
-  if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) < 24) return;
+  if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) < getSwipeThreshold()) return;
   if (Math.abs(deltaX) > Math.abs(deltaY)) {
     setDirection(deltaX > 0 ? 1 : -1, 0);
   } else {
@@ -374,6 +391,7 @@ document.querySelectorAll("#top-settings-button, #mobile-start-settings-button, 
   .forEach((button) => button.addEventListener("click", openSettings));
 usernameInput.addEventListener("input", saveSettings);
 difficultySelect.addEventListener("change", saveSettings);
+touchSensitivityInput.addEventListener("input", saveSettings);
 document.querySelector("#settings-close-button").addEventListener("click", () => settingsDialog.close());
 document.querySelector("#settings-done-button").addEventListener("click", () => settingsDialog.close());
 settingsDialog.addEventListener("close", () => {
