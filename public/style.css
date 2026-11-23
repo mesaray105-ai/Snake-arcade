@@ -1,12 +1,12 @@
 :root {
   color-scheme: dark;
   font-family: "Space Grotesk", sans-serif;
-  color: #f0f3e9;
-  background: #101610;
+  color: #115994;
+  background: #2516a8;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  --green: #c5f36b;
-  --muted: #788073;
+  --green: #c98f12;
+  --muted: #e07c1e;
   --line: #2a3328;
 }
 
@@ -16,7 +16,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
-  background-image: radial-gradient(ellipse at 42% 34%, #ffa216 0, #ff8800 57%);
+  background-image: radial-gradient(ellipse at 42% 34%, #6e4403cb 0, #864a04 57%);
 }
 
 button { font: inherit; }
@@ -31,7 +31,7 @@ button { font: inherit; }
   border-bottom: 1px solid var(--line);
 }
 
-.brand { color: #edf2e6; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: .13em; }
+.brand { color: #718a4e; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: .13em; }
 .brand-mark { display: inline-grid; place-items: center; width: 25px; height: 25px; margin-right: 9px; color: #101610; background: var(--green); border-radius: 6px; letter-spacing: 0; }
 .brand-dot { color: var(--green); }
 .topbar-label, .eyebrow, .score-label, .section-subtitle, .side-note, .keyboard-hint, .overlay-kicker, .overlay-hint { font-family: "DM Mono", monospace; }
