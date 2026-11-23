@@ -151,8 +151,8 @@ function showOverlay(mode) {
   if (mode === "ready") {
     overlayIcon.textContent = "↗";
     overlayKicker.textContent = "READY WHEN YOU ARE";
-    overlayTitle.innerHTML = "One more<br>round?";
-    startButton.innerHTML = "Start game <span>→</span>";
+    overlayTitle.innerHTML = "Ready to<br>play?";
+    startButton.innerHTML = "Play <span>→</span>";
     overlayHint.textContent = "PRESS ENTER TO PLAY";
   } else if (mode === "paused") {
     overlayIcon.textContent = "Ⅱ";
@@ -186,18 +186,18 @@ function pauseGame() {
   showOverlay("paused");
 }
 
-function enterMobileGame() {
-  document.body.classList.add("mobile-game-active");
+function enterGame() {
+  document.body.classList.add("game-fullscreen");
   startGame();
 }
 
-function exitMobileGame() {
+function exitGame() {
   clearInterval(gameTimer);
   gameState = "ready";
   mobilePauseButton.textContent = "Pause";
   resetGame();
   showOverlay("ready");
-  document.body.classList.remove("mobile-game-active");
+  document.body.classList.remove("game-fullscreen");
   window.scrollTo(0, 0);
 }
 
@@ -239,7 +239,7 @@ function moveSnake() {
 }
 
 function setDirection(x, y) {
-  if (gameState === "ready" || gameState === "over") startGame();
+  if (gameState === "ready" || gameState === "over") enterGame();
   if (gameState !== "running" || (x === -direction.x && y === -direction.y)) return;
   nextDirection = { x, y };
 }
@@ -346,7 +346,7 @@ document.addEventListener("keydown", (event) => {
     event.preventDefault();
     startGame();
   } else if (event.key === "Enter" && gameState !== "running") {
-    startGame();
+    enterGame();
   }
 });
 
@@ -367,8 +367,8 @@ mobilePauseButton.addEventListener("click", () => {
   }
 });
 
-mobilePlayButton.addEventListener("click", enterMobileGame);
-mobileMenuButton.addEventListener("click", exitMobileGame);
+mobilePlayButton.addEventListener("click", enterGame);
+mobileMenuButton.addEventListener("click", exitGame);
 
 document.querySelectorAll("#top-settings-button, #mobile-start-settings-button, #game-settings-button")
   .forEach((button) => button.addEventListener("click", openSettings));
@@ -384,7 +384,7 @@ settingsDialog.addEventListener("click", (event) => {
   if (event.target === settingsDialog) settingsDialog.close();
 });
 
-startButton.addEventListener("click", startGame);
+startButton.addEventListener("click", enterGame);
 document.querySelector("#restart-button").addEventListener("click", () => {
   clearInterval(gameTimer);
   gameState = "ready";

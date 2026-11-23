@@ -24,4 +24,4 @@ Render's free service may sleep when idle, so the first visit after a quiet peri
 
 Visit the published URL in the phone's browser. On Android, choose **Install app** or **Add to Home screen** from the browser menu. On iPhone, use **Share → Add to Home Screen** in Safari. The game can be played offline after it has loaded once; saving or loading leaderboard scores requires an internet connection.
 
-On phones, tap **Play** to enter a fixed game view that prevents page scrolling while you play. Open **Settings** to choose Easy, Normal, or Hard and set the username used for your scores. These preferences are saved in that browser on that device.
+On phones, tap **Play**; on desktop, press **Play** on the game board. Either opens a full-screen play area that prevents the page from moving while you play. Choose **Menu** to return to the page. Open **Settings** to choose Easy, Normal, or Hard and set the username used for your scores. These preferences are saved in that browser on that device.

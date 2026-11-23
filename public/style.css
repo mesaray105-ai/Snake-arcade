@@ -53,6 +53,64 @@ button { font: inherit; }
 .settings-status { min-height: 16px; margin: 0; color: var(--green); font: 10px "DM Mono", monospace; }
 .settings-done-button { width: 100%; }
 
+.game-fullscreen {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+.game-fullscreen .page {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  min-height: 0;
+  max-width: none;
+  margin: 0;
+  padding: env(safe-area-inset-top, 0px) 12px env(safe-area-inset-bottom, 0px);
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+.game-fullscreen .topbar,
+.game-fullscreen .mobile-start-screen,
+.game-fullscreen .sidebar { display: none; }
+.game-fullscreen .mobile-start-screen + .layout {
+  display: block;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.game-fullscreen .game-column { display: flex; flex-direction: column; width: 100%; height: 100%; min-height: 0; }
+.game-fullscreen .heading-row { flex: 0 0 42px; align-items: center; margin: 0; padding: 0 4px; }
+.game-fullscreen .heading-row > div:first-child { display: none; }
+.game-fullscreen .score-card { margin-left: auto; text-align: left; }
+.game-fullscreen .mobile-menu-button {
+  display: block;
+  padding: 8px 0;
+  border: 0;
+  color: #a0a999;
+  background: transparent;
+  font: 10px "DM Mono", monospace;
+  text-transform: uppercase;
+}
+.game-fullscreen .game-settings-button { margin-left: 12px; }
+.game-fullscreen .board-shell {
+  flex: 0 1 auto;
+  width: min(calc(100vw - 32px), calc(100dvh - 110px));
+  max-width: 100%;
+  margin: auto;
+}
+.game-fullscreen .game-footer { flex: 0 0 34px; min-height: 34px; }
+
 .layout { display: grid; grid-template-columns: minmax(0, 660px) minmax(250px, 1fr); gap: 74px; padding: 59px 0 45px; }
 .heading-row { display: flex; justify-content: space-between; align-items: end; margin-bottom: 24px; }
 .eyebrow { margin: 0 0 8px; color: var(--muted); font-size: 9px; letter-spacing: .17em; }
@@ -149,19 +207,6 @@ h1 { margin: 0; font-size: clamp(48px, 7vw, 66px); line-height: .96; letter-spac
   .mobile-start-actions { display: grid; justify-items: center; gap: 8px; }
   .mobile-start-screen + .layout { display: none; }
 
-  body.mobile-game-active { position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh; overflow: hidden; overscroll-behavior: none; }
-  body.mobile-game-active .page { position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh; min-height: 0; max-width: none; margin: 0; padding: env(safe-area-inset-top, 0px) 12px env(safe-area-inset-bottom, 0px); overflow: hidden; overscroll-behavior: none; }
-  body.mobile-game-active .topbar,
-  body.mobile-game-active .mobile-start-screen,
-  body.mobile-game-active .sidebar { display: none; }
-  body.mobile-game-active .mobile-start-screen + .layout { display: block; flex: 1; width: 100%; min-height: 0; margin: 0; padding: 0; overflow: hidden; }
-  body.mobile-game-active .game-column { display: flex; flex-direction: column; width: 100%; height: 100%; min-height: 0; }
-  body.mobile-game-active .heading-row { flex: 0 0 42px; align-items: center; margin: 0; padding: 0 4px; }
-  body.mobile-game-active .heading-row > div:first-child { display: none; }
-  body.mobile-game-active .score-card { margin-left: auto; text-align: left; }
-  body.mobile-game-active .mobile-menu-button { display: block; padding: 8px 0; border: 0; color: #a0a999; background: transparent; font: 10px "DM Mono", monospace; text-transform: uppercase; }
-  body.mobile-game-active .game-settings-button { margin-left: 12px; }
-  body.mobile-game-active .board-shell { flex: 0 1 auto; width: min(calc(100vw - 24px), calc(100dvh - 246px)); max-width: 100%; margin: auto; }
-  body.mobile-game-active .game-footer { flex: 0 0 34px; min-height: 34px; }
-  body.mobile-game-active .mobile-controls { flex: 0 0 auto; padding: 0 0 4px; touch-action: none; overscroll-behavior: contain; }
+  .game-fullscreen .board-shell { width: min(calc(100vw - 24px), calc(100dvh - 246px)); }
+  .game-fullscreen .mobile-controls { flex: 0 0 auto; padding: 0 0 4px; touch-action: none; overscroll-behavior: contain; }
 }
