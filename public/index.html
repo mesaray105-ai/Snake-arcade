@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101610">
+    <title>Snake — Arcade</title>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/game.js" defer></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Snake Arcade home"><span class="brand-mark">S</span> ARCADE<span class="brand-dot">.</span></a>
+        <span class="topbar-label"><span class="live-dot"></span> CLASSIC MODE</span>
+      </header>
+
+      <section class="layout" aria-label="Snake game">
+        <div class="game-column">
+          <div class="heading-row">
+            <div>
+              <p class="eyebrow">THE ORIGINAL TIME KILLER</p>
+              <h1>Raydel's First Snake Project<span class="heading-period">.</span></h1>
+            </div>
+            <div class="score-card" aria-live="polite">
+              <span class="score-label">SCORE</span>
+              <span id="score" class="score-value">000</span>
+            </div>
+          </div>
+
+          <div class="board-shell">
+            <canvas id="game" width="440" height="440" aria-label="Snake game board"></canvas>
+            <div id="overlay" class="overlay">
+              <div class="overlay-content">
+                <span id="overlay-icon" class="overlay-icon">↗</span>
+                <p id="overlay-kicker" class="overlay-kicker">READY WHEN YOU ARE</p>
+                <h2 id="overlay-title">One more<br>round?</h2>
+                <button id="start-button" class="primary-button">Start game <span>→</span></button>
+                <p id="overlay-hint" class="overlay-hint">PRESS ENTER TO PLAY</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="game-footer">
+            <div class="keyboard-hint"><span class="keycap">↑</span><span class="keycap">←</span><span class="keycap">↓</span><span class="keycap">→</span><span>TO MOVE</span></div>
+            <div class="keyboard-hint"><span class="keycap keycap-wide">SPACE</span><span>TO PAUSE</span></div>
+            <button id="restart-button" class="text-button">RESTART <span>↻</span></button>
+          </div>
+        </div>
+
+        <aside class="sidebar">
+          <section class="side-section">
+            <div class="section-title"><span class="section-number">01</span><h2>Leaderboard</h2></div>
+            <p class="section-subtitle">THE LOCAL LEGENDS</p>
+            <ol id="leaderboard" class="leaderboard">
+              <li class="empty-state">Loading scores<span>...</span></li>
+            </ol>
+          </section>
+
+          <section class="side-section how-to">
+            <div class="section-title"><span class="section-number">02</span><h2>How to play</h2></div>
+            <p class="section-subtitle">A FEW FRIENDLY REMINDERS</p>
+            <div class="tip"><span class="tip-icon">↗</span><p>Eat the dots. Each one adds <strong>10 points.</strong></p></div>
+            <div class="tip"><span class="tip-icon">⟳</span><p>Don't run into the walls or your own tail.</p></div>
+            <div class="tip"><span class="tip-icon">⌨</span><p>Arrow keys or <strong>W A S D</strong> to steer.</p></div>
+          </section>
+
+          <p class="side-note">MADE FOR THE JOY OF THE GAME <span>✳</span></p>
+        </aside>
+      </section>
+      <footer class="mobile-controls" aria-label="Touch controls">
+        <button data-direction="up" aria-label="Move up">↑</button>
+        <div><button data-direction="left" aria-label="Move left">←</button><button data-direction="down" aria-label="Move down">↓</button><button data-direction="right" aria-label="Move right">→</button></div>
+      </footer>
+    </main>
+  </body>
+</html>
