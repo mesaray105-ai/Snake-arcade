@@ -17,6 +17,9 @@ const difficultySelect = document.querySelector("#difficulty-select");
 const touchSensitivityInput = document.querySelector("#touch-sensitivity-input");
 const touchSensitivityValue = document.querySelector("#touch-sensitivity-value");
 const settingsStatus = document.querySelector("#settings-status");
+const installButton = document.querySelector("#install-button");
+const installDialog = document.querySelector("#install-dialog");
+const installInstructions = document.querySelector("#install-instructions");
 
 const tileCount = 22;
 const tileSize = canvas.width / tileCount;
@@ -38,6 +41,7 @@ let playerName = "PLAYER";
 let difficulty = "normal";
 let touchSensitivity = 8;
 let resumeAfterSettings = false;
+let deferredInstallPrompt;
 
 function getGameSpeed() {
   const settings = difficultySettings[difficulty];
@@ -103,6 +107,52 @@ function openSettings() {
   if (resumeAfterSettings) pauseGame();
   settingsDialog.showModal();
 }
+
+function showInstallInstructions() {
+  const isAppleMobile = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (isAppleMobile) {
+    installInstructions.textContent = "In Safari, tap Share, then choose Add to Home Screen.";
+  } else if (/Android/i.test(navigator.userAgent)) {
+    installInstructions.textContent = "Open your browser menu and choose Install app or Add to Home screen.";
+  } else {
+    installInstructions.textContent = "Use your browser's menu or address bar and choose Install app.";
+  }
+  installDialog.showModal();
+}
+
+async function installApp() {
+  if (!deferredInstallPrompt) {
+    showInstallInstructions();
+    return;
+  }
+
+  const prompt = deferredInstallPrompt;
+  deferredInstallPrompt = null;
+  try {
+    await prompt.prompt();
+    await prompt.userChoice;
+  } catch (error) {
+    console.error("Could not start app installation:", error);
+    showInstallInstructions();
+  }
+}
+
+installButton.hidden = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+});
+window.addEventListener("appinstalled", () => {
+  deferredInstallPrompt = null;
+  installButton.hidden = true;
+});
+installButton.addEventListener("click", installApp);
+document.querySelector("#install-close-button").addEventListener("click", () => installDialog.close());
+document.querySelector("#install-done-button").addEventListener("click", () => installDialog.close());
+installDialog.addEventListener("click", (event) => {
+  if (event.target === installDialog) installDialog.close();
+});
 
 function drawBoard() {
   context.fillStyle = colors.background;

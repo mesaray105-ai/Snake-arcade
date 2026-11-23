@@ -3,7 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#101610">
+    <meta name="theme-color" content="#2516a8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Snake Arcade">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Snake — Arcade</title>
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="manifest" href="/manifest.webmanifest">
@@ -19,6 +22,7 @@
         <a class="brand" href="/" aria-label="Snake Arcade home"><span class="brand-mark">S</span> ARCADE<span class="brand-dot">.</span></a>
         <span class="topbar-label"><span class="live-dot"></span> CLASSIC MODE</span>
         <button id="top-settings-button" class="settings-trigger">Settings</button>
+        <button id="install-button" class="settings-trigger install-trigger" type="button">Install app</button>
       </header>
 
       <section id="mobile-start-screen" class="mobile-start-screen" aria-label="Start Snake">
@@ -127,6 +131,17 @@
         <p class="settings-help">Higher sensitivity responds to shorter swipes.</p>
         <p id="settings-status" class="settings-status" role="status" aria-live="polite"></p>
         <button id="settings-done-button" class="primary-button settings-done-button">Done <span>→</span></button>
+      </div>
+    </dialog>
+
+    <dialog id="install-dialog" class="settings-dialog" aria-labelledby="install-title">
+      <div class="settings-content">
+        <div class="settings-heading">
+          <h2 id="install-title">Install Snake Arcade</h2>
+          <button id="install-close-button" class="settings-close-button" aria-label="Close install instructions">×</button>
+        </div>
+        <p id="install-instructions" class="settings-help"></p>
+        <button id="install-done-button" class="primary-button settings-done-button">Done <span>→</span></button>
       </div>
     </dialog>
   </body>
