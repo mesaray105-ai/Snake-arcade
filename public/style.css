@@ -68,6 +68,7 @@ h1 { margin: 0; font-size: clamp(48px, 7vw, 66px); line-height: .96; letter-spac
 .text-button:hover { color: var(--green); }
 .text-button span { margin-left: 5px; font-size: 14px; }
 
+.mobile-controls { display: none; }
 .sidebar { padding-top: 11px; }
 .side-section + .side-section { margin-top: 43px; }
 .section-title { display: flex; align-items: baseline; gap: 11px; }
@@ -88,7 +89,6 @@ h1 { margin: 0; font-size: clamp(48px, 7vw, 66px); line-height: .96; letter-spac
 .tip strong { color: #e6ecdf; font-weight: 500; }
 .side-note { margin: 38px 0 0 27px; color: #687263; font-size: 8px; letter-spacing: .12em; }
 .side-note span { padding-left: 4px; color: var(--green); }
-.mobile-controls { display: none; }
 
 @media (max-width: 850px) {
   .page { width: min(660px, calc(100% - 36px)); }
@@ -105,16 +105,19 @@ h1 { margin: 0; font-size: clamp(48px, 7vw, 66px); line-height: .96; letter-spac
   .layout { gap: 23px; padding-top: 29px; }
   .heading-row { margin-bottom: 17px; }
   .eyebrow { font-size: 8px; }
-  h1 { font-size: 52px; }
+  h1 { font-size: clamp(34px, 10vw, 46px); }
   .game-footer { min-height: 48px; gap: 11px; }
   .keyboard-hint { gap: 3px; font-size: 7px; }
   .keycap { width: 16px; height: 16px; }
   .keycap-wide { width: 34px; }
   .text-button { font-size: 8px; }
+  .keyboard-hint { display: none; }
   .sidebar { grid-template-columns: 1fr; gap: 28px; }
   .side-note { grid-column: auto; }
-  .mobile-controls { display: grid; justify-items: center; gap: 7px; padding: 0 0 25px; }
-  .mobile-controls div { display: flex; gap: 7px; }
-  .mobile-controls button { display: grid; place-items: center; width: 46px; height: 40px; border: 1px solid #394437; border-radius: 5px; color: var(--green); background: #182118; font-size: 20px; touch-action: manipulation; }
+  .mobile-controls { display: grid; grid-template-columns: 1fr auto; justify-items: center; align-items: center; gap: 8px 18px; padding: 0 0 8px; }
+  .mobile-control-row { display: flex; gap: 7px; }
+  .mobile-controls button { display: grid; place-items: center; width: 52px; height: 48px; border: 1px solid #394437; border-radius: 5px; color: var(--green); background: #182118; font-size: 21px; touch-action: manipulation; }
   .mobile-controls button:active { background: #293727; }
+  .mobile-controls .mobile-pause-button { grid-column: 2; grid-row: 1 / span 2; width: 66px; color: #dce3d5; font: 10px "DM Mono", monospace; text-transform: uppercase; }
+  .board-shell { touch-action: none; }
 }

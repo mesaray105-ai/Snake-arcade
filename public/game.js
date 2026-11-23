@@ -8,6 +8,7 @@ const overlayTitle = document.querySelector("#overlay-title");
 const overlayHint = document.querySelector("#overlay-hint");
 const startButton = document.querySelector("#start-button");
 const leaderboard = document.querySelector("#leaderboard");
+const mobilePauseButton = document.querySelector("#mobile-pause-button");
 
 const tileCount = 22;
 const tileSize = canvas.width / tileCount;
@@ -106,6 +107,7 @@ function startGame() {
   if (gameState === "running") return;
   if (gameState === "ready" || gameState === "over") resetGame();
   gameState = "running";
+  mobilePauseButton.textContent = "Pause";
   overlay.classList.add("hidden");
   clearInterval(gameTimer);
   gameTimer = setInterval(moveSnake, Math.max(65, 130 - Math.floor(score / 50) * 5));
@@ -114,12 +116,14 @@ function startGame() {
 function pauseGame() {
   if (gameState !== "running") return;
   gameState = "paused";
+  mobilePauseButton.textContent = "Resume";
   clearInterval(gameTimer);
   showOverlay("paused");
 }
 
 function endGame() {
   gameState = "over";
+  mobilePauseButton.textContent = "Pause";
   clearInterval(gameTimer);
   drawGame();
   showOverlay("over");
@@ -229,6 +233,32 @@ const keyDirections = {
   ArrowRight: [1, 0], d: [1, 0], D: [1, 0],
 };
 
+let touchStart;
+const boardShell = document.querySelector(".board-shell");
+
+boardShell.addEventListener("touchstart", (event) => {
+  const touch = event.changedTouches[0];
+  touchStart = { x: touch.clientX, y: touch.clientY };
+}, { passive: true });
+
+boardShell.addEventListener("touchend", (event) => {
+  if (!touchStart) return;
+  const touch = event.changedTouches[0];
+  const deltaX = touch.clientX - touchStart.x;
+  const deltaY = touch.clientY - touchStart.y;
+  touchStart = null;
+  if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) < 24) return;
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    setDirection(deltaX > 0 ? 1 : -1, 0);
+  } else {
+    setDirection(0, deltaY > 0 ? 1 : -1);
+  }
+}, { passive: true });
+
+boardShell.addEventListener("touchcancel", () => {
+  touchStart = null;
+}, { passive: true });
+
 document.addEventListener("keydown", (event) => {
   const movement = keyDirections[event.key];
   if (movement) {
@@ -254,10 +284,19 @@ document.querySelectorAll("[data-direction]").forEach((button) => {
   });
 });
 
+mobilePauseButton.addEventListener("click", () => {
+  if (gameState === "running") {
+    pauseGame();
+  } else if (gameState === "paused") {
+    startGame();
+  }
+});
+
 startButton.addEventListener("click", startGame);
 document.querySelector("#restart-button").addEventListener("click", () => {
   clearInterval(gameTimer);
   gameState = "ready";
+  mobilePauseButton.textContent = "Pause";
   resetGame();
   showOverlay("ready");
 });
